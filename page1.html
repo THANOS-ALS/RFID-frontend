@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RFID Attendance Tracker</title>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .person {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .person:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .person img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .person:hover img {
+            transform: scale(1.1);
+        }
+
+        h3 {
+            font-size: 22px;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .available {
+            color: green;
+        }
+
+        .not-available {
+            color: red;
+        }
+
+        .time {
+            font-size: 14px;
+            color: #666;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>RFID Attendance Tracker</h1>
+
+    <div class="container" id="people">
+        <a href="user_profile.html?id=62A4F19B">
+            <div class="person" id="62A4F19B">
+                <img src="https://i.pravatar.cc/150?img=1" alt="John Doe">
+                <h3>John Doe</h3>
+                <div class="status not-available">🔴 Not Available</div>
+                <div class="time">Last available: N/A</div>
+            </div>
+        </a>
+
+        <a href="user_profile.html?id=ABCD1234">
+            <div class="person" id="ABCD1234">
+                <img src="https://i.pravatar.cc/150?img=2" alt="Jane Smith">
+                <h3>Jane Smith</h3>
+                <div class="status not-available">🔴 Not Available</div>
+                <div class="time">Last available: N/A</div>
+            </div>
+        </a>
+
+        <a href="user_profile.html?id=9876ZZZZ">
+            <div class="person" id="9876ZZZZ">
+                <img src="https://i.pravatar.cc/150?img=3" alt="Alice Johnson">
+                <h3>Alice Johnson</h3>
+                <div class="status not-available">🔴 Not Available</div>
+                <div class="time">Last available: N/A</div>
+            </div>
+        </a>
+
+        <a href="user_profile.html?id=FAKE1122">
+            <div class="person" id="FAKE1122">
+                <img src="https://i.pravatar.cc/150?img=4" alt="Bob Lee">
+                <h3>Bob Lee</h3>
+                <div class="status not-available">🔴 Not Available</div>
+                <div class="time">Last available: N/A</div>
+            </div>
+        </a>
+
+        <a href="user_profile.html?id=DUMMY3344">
+            <div class="person" id="DUMMY3344">
+                <img src="https://i.pravatar.cc/150?img=5" alt="Charlie Kim">
+                <h3>Charlie Kim</h3>
+                <div class="status not-available">🔴 Not Available</div>
+                <div class="time">Last available: N/A</div>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        const socket = io();
+
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+
+        socket.on('tag_detected', (data) => {
+            console.log('Tag detected:', data);
+            const tagId = data.tag;
+            const personDiv = document.getElementById(tagId);
+
+            if (personDiv) {
+                const statusDiv = personDiv.querySelector('.status');
+                const timeDiv = personDiv.querySelector('.time');
+                const currentTime = new Date().toLocaleTimeString();
+
+                if (statusDiv.classList.contains('not-available')) {
+                    statusDiv.innerText = '🟢 Available';
+                    statusDiv.classList.remove('not-available');
+                    statusDiv.classList.add('available');
+                } else {
+                    statusDiv.innerText = '🔴 Not Available';
+                    statusDiv.classList.remove('available');
+                    statusDiv.classList.add('not-available');
+                }
+
+                timeDiv.innerText = `Last available: ${currentTime}`;
+                personDiv.style.transform = "scale(1.1)";
+                setTimeout(() => {
+                    personDiv.style.transform = "scale(1)";
+                }, 300);
+            }
+        });
+    </script>
+
+</body>
+</html>

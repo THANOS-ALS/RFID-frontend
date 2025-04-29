@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<a href="login.html" style="position: absolute; top: 20px; right: 20px;">Logout</a>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RFID Attendance - User</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 50px;
+    }
+    .person {
+      display: inline-block;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .person img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .status {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    .available { color: green; }
+    .not-available { color: red; }
+    .time {
+      font-size: 14px;
+      color: gray;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome, John Doe</h1>
+
+  <div class="person" id="62A4F19B">
+    <img src="https://i.pravatar.cc/150?img=1" alt="John Doe">
+    <h3>John Doe</h3>
+    <div class="status not-available">🔴 Not Available</div>
+    <div class="time">Last available: N/A</div>
+    <button onclick="toggleStatusManually()">Change Status</button>
+  </div>
+
+  <script>
+    // Simulate Socket.IO event for real RFID
+    const tagId = "62A4F19B";
+
+    function toggleStatus(personDiv) {
+      const statusDiv = personDiv.querySelector('.status');
+      const timeDiv = personDiv.querySelector('.time');
+      const currentTime = new Date().toLocaleTimeString();
+
+      if (statusDiv.classList.contains('not-available')) {
+        statusDiv.innerText = '🟢 Available';
+        statusDiv.classList.remove('not-available');
+        statusDiv.classList.add('available');
+      } else {
+        statusDiv.innerText = '🔴 Not Available';
+        statusDiv.classList.remove('available');
+        statusDiv.classList.add('not-available');
+      }
+
+      timeDiv.innerText = `Last available: ${currentTime}`;
+    }
+
+    function toggleStatusManually() {
+      const personDiv = document.getElementById(tagId);
+      toggleStatus(personDiv);
+    }
+  </script>
+
+</body>
+</html>

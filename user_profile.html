@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        .profile-header img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .profile-header h2 {
+            margin: 10px 0;
+        }
+
+        .profile-info {
+            margin: 20px 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+
+        .not-available {
+            color: red;
+            font-weight: bold;
+        }
+
+        a.back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        a.back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="https://i.pravatar.cc/150?img=1" alt="User Photo">
+            <h2>John Doe</h2>
+        </div>
+
+        <div class="profile-info">
+            <p><strong>Email:</strong> john.doe@example.com</p>
+            <p><strong>Role:</strong> Engineer</p>
+            <p><strong>RFID Tag:</strong> 62A4F19B</p>
+        </div>
+
+        <h3>Availability History</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-04-28</td>
+                    <td>09:00 AM</td>
+                    <td class="available">Available</td>
+                </tr>
+                <tr>
+                    <td>2025-04-28</td>
+                    <td>12:00 PM</td>
+                    <td class="not-available">Not Available</td>
+                </tr>
+                <tr>
+                    <td>2025-04-29</td>
+                    <td>08:55 AM</td>
+                    <td class="available">Available</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a class="back-link" href="admin_dashboard.html">← Back to Dashboard</a>
+    </div>
+
+</body>
+</html>
+
